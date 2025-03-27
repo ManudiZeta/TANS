@@ -85,7 +85,7 @@ Si lancia la funzione " residues_TANS () " che preleva Z_true e Z_rec dai rispet
 
 STEP 5)
 
-Si lancia la funzione " TGeo_personal(int ev) ", che si incarica di svolgere un event display ( molto rudimentale ) della realtà Monte Carlo e come argomento ha il numero dell'evento che si vuole rappresentare. Viene, ristampato il risultato finale, ossia il Z_true e Z_rec. 
+Si lancia la funzione " TGeo_personal(int ev) ", che si incarica di svolgere un event display ( molto rudimentale ) della realtà Monte Carlo e come argomento ha il numero dell'evento che si vuole rappresentare. Viene ristampato il risultato finale, ossia il Z_true e Z_rec. 
 Per una miglior interfaccia, si consiglia di utilizzare un 3D Viewer quale OpenGL, selezionabile direttamente dal TCanvas in uscita (View -> View With -> OpenGL)
 
 
