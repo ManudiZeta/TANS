@@ -22,14 +22,14 @@
 void simulaz_TANS (int n_eve = 1, bool MS = 0, string mul_sel = "hm")
 {
     if (n_eve<1){ cout<<" Invalid # of events \n"; return;}
-    gRandom->SetSeed(253180);  //attivare per l'immediata riproducibilità
+    //gRandom->SetSeed(253180);  //attivare per l'immediata riproducibilità
     
     TStopwatch speedmaster;
     speedmaster.Start();
-    
+    cout<<"Loading simulation ... \n";
     vector<dLayer> layer= dLayer::layerMaker();  //caricamento dei detector
     
-    TFile myf ("../dat_TANS/MC_truth.root","recreate");; //TFile incaricato alla manodopera del file "MC_truth.root"
+    TFile myf ("../dat_TANS/MC_truth.root","recreate"); //TFile incaricato alla manodopera del file "MC_truth.root"
     TTree *tree = new TTree ("myTree_S", "simulaz_tree"); //TTree dataset colonnare
     
     typedef struct //definisco una struct per leggerezza nel recuperare Z_true nella fase dei residui
@@ -112,7 +112,7 @@ void simulaz_TANS (int n_eve = 1, bool MS = 0, string mul_sel = "hm")
         
         for (int j = 0; j<mul; j++) //loop su tutte le particelle prodotte per vedere dove colpiscono i rivelatori ed eventualemnte caricare sul TCA
         {
-            cout<<"\n***Particle no "<<j+1<<"| Ev. "<<k<<"***\n";
+            //cout<<"\n***Particle no "<<j+1<<"| Ev. "<<k<<"***\n";
             //phi
             phi = (gRandom->Rndm())*2.*M_PI; //generazione di phi uniforme da 0 a 2pi
             //eta
@@ -150,10 +150,10 @@ void simulaz_TANS (int n_eve = 1, bool MS = 0, string mul_sel = "hm")
                     lHit *tst=(lHit*)hits_ptr.At(in); // così perché il TClonesArray() riconosce lHit come un TObject, per il quale NON sono definiti i metodi di lHit! Di seguito, quindi, non potrei usare print()
                     
                     in++; //vado a vanti nel TCA
-                    cout<<d+1<<") Hit in : \n";
-                    angs.print();
-                    tst->print();
-                    cout<<endl;
+                    //cout<<d+1<<") Hit in : \n";
+                    //angs.print();
+                    //tst->print();
+                    //cout<<endl;
                     check[d]++;
                     if (MS == 1)
                     {
@@ -163,13 +163,13 @@ void simulaz_TANS (int n_eve = 1, bool MS = 0, string mul_sel = "hm")
             }
         }
         tree->Fill();
-        sConj::endEv(k,ptrhits->GetEntries(),ver,mul); //stampe relative al singolo evento
+        //sConj::endEv(k,ptrhits->GetEntries(),ver,mul); //stampe relative al singolo evento
         ptrhits->Clear();
         ptrangs->Clear();
         ptrcil->Clear();
     }
     
-    sConj::endSim(MS,n_eve,parts,check); //stampe relative all'intera simulazione
+    //sConj::endSim(MS,n_eve,parts,check); //stampe relative all'intera simulazione
     
     myf.Write();
     myf.Close();

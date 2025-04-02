@@ -25,6 +25,7 @@ void ricostruz_TANS (const double window = 1) // finestra di window*dev_std risp
 
     TStopwatch speedmaster;
     speedmaster.Start();
+    cout<<"Loading reconstruction ... \n";
     
     string in = "../dat_TANS/data.root";
     
@@ -68,7 +69,7 @@ void ricostruz_TANS (const double window = 1) // finestra di window*dev_std risp
     {
         phi_2.clear();
         phi_3.clear();
-        cout<<"\n********** EVENT "<<ev+1<<"********** \n";
+        //cout<<"\n********** EVENT "<<ev+1<<"********** \n";
         tree_in->GetEvent(ev);
         int num=ptrcil_in->GetEntries(); //numero di hit in un ev-esimo evento (lo prendo dal branch)
         
@@ -87,9 +88,12 @@ void ricostruz_TANS (const double window = 1) // finestra di window*dev_std risp
         sort(z_rec_vec.begin(), z_rec_vec.end());
 
         z_rec =  rTklet::ZREC(z_rec_vec, window);
-        cout<<"\n * Z_REC  = "<<z_rec<<endl;
+        //cout<<"\n * Z_REC  = "<<z_rec<<endl;
+        if(isnan(z_rec) != 0) //controllo sull'inefficienza di ricostruzione
+        {
+            //cout<<"NAN alert \n";
+        }
         tree_out->Fill();
-        
         phi_2.clear();
         phi_3.clear();
         z_rec_vec.clear();

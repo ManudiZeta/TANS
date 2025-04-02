@@ -23,7 +23,8 @@ void dataReal_TANS (bool spur = 0, double noise = 0.005)
 {
     TStopwatch speedmaster;
     speedmaster.Start();
-
+    cout<<"Loading detection ... \n";
+    
     string in ="../dat_TANS/MC_truth.root";
     ifstream in_file(in);
     if(!in_file)
@@ -67,7 +68,7 @@ void dataReal_TANS (bool spur = 0, double noise = 0.005)
     
     for(int ev=0;ev<n_eve;ev++)
     {
-        cout<<"********** EVENT "<<ev+1<<"********** \n";
+        //cout<<"********** EVENT "<<ev+1<<"********** \n";
         tree_in->GetEvent(ev);
         int num=ptrhits_in->GetEntries(); //numero di hit in un ev-esimo evento
         
@@ -83,7 +84,7 @@ void dataReal_TANS (bool spur = 0, double noise = 0.005)
             {
                 lHit new_hit(P,R);
                 new(hits_ptr_out[counter])lHit(new_hit);
-                new_hit.print();
+                //new_hit.print();
                 new(cil_ptr_out[counter])cilPoint(cil_P);
                 counter++;
                 tot_hits++;
@@ -98,7 +99,7 @@ void dataReal_TANS (bool spur = 0, double noise = 0.005)
                 cPoint spur_p (smLayer::spurPoint(layer));
                 lHit spur_hit (spur_p,layer);
                 new(hits_ptr_out[counter])lHit(spur_hit);
-                spur_hit.print();
+                //spur_hit.print();
                 
                 cilPoint cil_spur = cilPoint(spur_p);
                 new(cil_ptr_out[counter])cilPoint(cil_spur);
@@ -110,7 +111,7 @@ void dataReal_TANS (bool spur = 0, double noise = 0.005)
         }
         tree_out->Fill();
         counter = 0;
-        cout<<"\n*****Total hits in ev "<<ev+1<<" = "<<ptrhits_out->GetEntries()<<" *****\n";
+        //cout<<"\n*****Total hits in ev "<<ev+1<<" = "<<ptrhits_out->GetEntries()<<" *****\n";
         
         ptrhits_in->Clear();
         ptrhits_out->Clear();
@@ -128,7 +129,7 @@ void dataReal_TANS (bool spur = 0, double noise = 0.005)
     delete ptrhits_out;
     delete ptrcil_out;
     
-    cout<< "\nTotal hits recorded : "<<tot_hits<<endl;
+    //cout<< "\nTotal hits recorded : "<<tot_hits<<endl;
     speedmaster.Stop();
     cout<<"\n  Time [s] : ";
     speedmaster.Print();

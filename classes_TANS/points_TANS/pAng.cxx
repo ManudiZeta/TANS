@@ -43,15 +43,25 @@ double pAng::TtoE(const double t)
     {
         return inf;
     }
-    else
+    if (t>0 && t <= M_PI/2)
     {
         double T = tan(t/2);
         return -log(T);
     }
+    
+    else
+    {
+        double t1 = (t-M_PI);
+        double T = tan(t1/2);
+        return log(-T);
+    }
+    
+
 }
 
 double pAng::EtoT(const double e)
 {
+    
     double expo = exp(-e);
     return 2.*atan(expo);
 }

@@ -18,7 +18,7 @@ void rTklet::phiCoupler (const vector<cilPoint> &vec_2, const vector<cilPoint> &
     {
         for (vector<cilPoint>::size_type j = 0; j != vec_3.size(); j++)
         {
-            if (abs(vec_2[it].getP() - vec_3[j].getP()) < 0.01)
+            if (abs(vec_2[it].getP() - vec_3[j].getP()) < 0.005)
             {
                 //cout<<" coppia "<<it<< " = "<<vec_2[it].getP()<<" , "<<vec_3[j].getP();
                 double z_rec = tkGen (vec_2[it],vec_3[j]);
@@ -31,14 +31,41 @@ void rTklet::phiCoupler (const vector<cilPoint> &vec_2, const vector<cilPoint> &
     
 }
 
+double rTklet::mean_vec (const vector<double> &z_rec_vec)
+{
+    double counter = 0.;
+    int N = int (z_rec_vec.size());
+    
+    for (vector<double>::size_type j = 0; j != z_rec_vec.size(); j++)
+    {
+        counter = counter + z_rec_vec[j];
+    }
+    
+    return counter/N;
+    
+}
+
+double rTklet::sdev_vec (const vector<double> &z_rec_vec, const double mean)
+{
+    double counter = 0.;
+    int N = int (z_rec_vec.size());
+    
+    for (vector<double>::size_type j = 0; j != z_rec_vec.size(); j++)
+    {
+        counter = counter + (z_rec_vec[j] - mean)*(z_rec_vec[j] - mean);
+    }
+    
+    return sqrt(counter/(N-1));
+    
+}
+
+
 double rTklet::ZREC (const vector<double> &z_rec_vec, const double &window)
 {
     vector <double> rw;
     
-    double mean = accumulate(z_rec_vec.begin(), z_rec_vec.end(), 0.0) / z_rec_vec.size(); // metodo di std per calcolare la media  su un vec
-    
-    double sq_sum = inner_product(z_rec_vec.begin(), z_rec_vec.end(), z_rec_vec.begin(), 0.0);
-    double stdev = sqrt(sq_sum / z_rec_vec.size() - mean * mean);
+    double mean = mean_vec(z_rec_vec); // metodo di std per calcolare la media  su un vec
+    double stdev = sdev_vec(z_rec_vec, mean);
     
     for (vector<double>::size_type j = 0; j != z_rec_vec.size(); j++) //elimino i dati troppo esterni, ovvero quelli fuori da window*stdev
     {
@@ -48,7 +75,7 @@ double rTklet::ZREC (const vector<double> &z_rec_vec, const double &window)
         }
     }
     
-    return accumulate(rw.begin(), rw.end(), 0.0) / rw.size();
+    return mean_vec(rw);
     
 }
 
